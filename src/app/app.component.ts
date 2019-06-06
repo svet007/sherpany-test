@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'address-book-app';
+  searchValue: string;
+
+  constructor(private userService: UserService) { }
+
+  search(searchTerms: string) {
+    this.userService.setSearchValue(searchTerms);
+  }
 }

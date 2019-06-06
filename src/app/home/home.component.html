@@ -1,0 +1,58 @@
+<table class="table table-striped" *ngIf="users.length > 0">
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of (users | searchUser:searchTerms)">
+      <td><img src="{{user.picture.thumbnail}}"></td>
+      <td>{{user.name.first}}</td>
+      <td>{{user.name.last}}</td>
+      <td>{{user.login.username}}</td>
+      <td>{{user.email}}</td>
+      <td><button (click)="showDetails(user)">Show Details</button></td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="endOfCatalog" class="alert alert-info">End of Catalog</div>
+<div *ngIf="loading" class="alert alert-warning">Loading... </div>
+
+<ng-template #modalDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">User Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <dl>
+      <dt>Street</dt>
+      <dd>{{selectedUser.location.street}}</dd>
+      <dt>City</dt>
+      <dd>{{selectedUser.location.city}}</dd>
+      <dt>State</dt>
+      <dd>{{selectedUser.location.state}}</dd>
+      <dt>Postcode</dt>
+      <dd>{{selectedUser.location.postcode}}</dd>
+      <dt>Phone</dt>
+      <dd>{{selectedUser.phone}}</dd>
+      <dt>Cell</dt>
+      <dd>{{selectedUser.cell}}</dd>
+    </dl>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
+
+<div
+  infiniteScroll
+  infiniteScrollDistance="1"
+  (scrolled)="onScroll()"
+></div>
