@@ -4,6 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const baseUrl = 'https://randomuser.me/api/';
+const seed = 'sherpany';
+const results = 50;
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +13,12 @@ const baseUrl = 'https://randomuser.me/api/';
 export class UserService {
 
   selectedNationalities = {};
-  page: number = 0;
-  searchTerms = new Subject<string>();
+  searchTerms: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<any> {
-    let url = baseUrl + "?seed=sherpany&results=50";
-
-    url += `&page=${this.page}`;
+  getUsers(page: number): Observable<any> {
+    let url = baseUrl + `?seed=${seed}&results=${results}&page=${page}`;
 
     let nat = [];
     for (let key in this.selectedNationalities) {
@@ -35,31 +34,11 @@ export class UserService {
   }
 
   setNationalities(selectedNationalities) {
-    let equal = true;
-    const keys = Array.from(new Set(Object.keys(selectedNationalities).concat(Object.keys(this.selectedNationalities))));
-    for (let key of keys) {
-      if (selectedNationalities[key] != this.selectedNationalities[key]) {
-        equal = false;
-        break;
-      }
-    }
-    if (!equal) {
       this.selectedNationalities = selectedNationalities;
-      this.page = 0;
-    }
   }
 
   getNationalities() {
-    return { ...this.selectedNationalities };
-  }
-
-  setNextPage() {
-    if (this.page === 19) {
-      return false;
-    } else {
-      this.page++;
-      return true;
-    }
+    return this.selectedNationalities;
   }
 
   setSearchValue(searchTerms: string) {

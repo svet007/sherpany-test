@@ -1,4 +1,4 @@
-<table class="table table-striped" *ngIf="users.length > 0">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Photo</th>
@@ -9,7 +9,7 @@
       <th>Actions</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="users.length > 0">
     <tr *ngFor="let user of (users | searchUser:searchTerms)">
       <td><img src="{{user.picture.thumbnail}}"></td>
       <td>{{user.name.first}}</td>
