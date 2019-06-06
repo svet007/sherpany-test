@@ -8,9 +8,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let userService: UserService = jasmine.createSpyObj('UserService', ['getUsers']);
+  let userService = jasmine.createSpyObj('UserService', ['getUsers']);
   userService.getUsers.and.returnValue(of([]));
-  userService.searchTerms = new Subject<string>;
+  userService.searchTerms = new Subject<string>();
   let modalService: NgbModal = jasmine.createSpyObj('NgbModal', ['open']);
 
   beforeEach(async(() => {
@@ -75,13 +75,5 @@ describe('HomeComponent', () => {
     component.onScroll();
     expect(userService.getUsers).toHaveBeenCalled();
     expect(component.loading).toBe(false);
-  });
-
-  it('should fetch next batch', () => {
-    component.page = 0;
-    component.pendingRequestPage = null;
-    component.fetchNextBatch();
-    expect(component.pendingRequestPage).toEqual(1);
-    expect(userService.getUsers).toHaveBeenCalled();
   });
 });
