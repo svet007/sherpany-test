@@ -34,7 +34,7 @@ export class UserService {
   }
 
   setNationalities(selectedNationalities) {
-      this.selectedNationalities = selectedNationalities;
+    this.selectedNationalities = selectedNationalities;
   }
 
   getNationalities() {

@@ -40,23 +40,23 @@ export class HomeComponent implements OnInit {
     this.modalService.open(this.modalDetails);
   }
 
-   onScroll() {
-      if (this.page < maxPageNum - 1) {
-         this.page++;
-         if (this.cache[this.page]) {
-            this.users = this.users.concat(this.cache[this.page]);
-         } else {
-            this.loading = true;
-            this.userService.getUsers(this.page).subscribe((users) => {
-               this.users = this.users.concat(users);
-               this.loading = false;
-               this.fetchNextBatch();
-            });
-         }
+  onScroll() {
+    if (this.page < maxPageNum - 1) {
+      this.page++;
+      if (this.cache[this.page]) {
+        this.users = this.users.concat(this.cache[this.page]);
       } else {
-         this.endOfCatalog = true;
+        this.loading = true;
+        this.userService.getUsers(this.page).subscribe((users) => {
+          this.users = this.users.concat(users);
+          this.loading = false;
+          this.fetchNextBatch();
+        });
       }
-   }
+    } else {
+      this.endOfCatalog = true;
+    }
+  }
 
   private fetchNextBatch() {
     let nextPage = this.page + 1;
